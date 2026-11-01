@@ -33,6 +33,12 @@ final class Client
         $this->transport = $transport ?? self::curlTransport(...);
     }
 
+    /** Endpoint the client sends requests to (LIVE_URL, TEST_URL or a custom URL). */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
     /** @return Game[] */
     public function getGames(): array
     {
