@@ -56,7 +56,7 @@ echo $tp->getBalance()->balance;
 
 ## Laravel
 
-Servis sağlayıcı ve `Turkpin` facade'ı otomatik keşifle yüklenir (Laravel 10+). `.env`:
+Servis sağlayıcı ve `Turkpin` facade'ı otomatik keşifle yüklenir (Laravel 11+). `.env`:
 
 ```dotenv
 TURKPIN_USERNAME=...
