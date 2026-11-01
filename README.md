@@ -2,7 +2,7 @@
 
 [![test](https://github.com/buluterol/turkpin-php/actions/workflows/test.yml/badge.svg)](https://github.com/buluterol/turkpin-php/actions/workflows/test.yml)
 
-Turkpin bayi API'si için PHP istemcisi: e-pin oyun ve ürün listesi, sipariş verme, sipariş durumu, sipariş listesi ve bakiye.
+Turkpin bayi API'si için PHP istemcisi; Laravel ve Symfony entegrasyonu dahil: e-pin oyun ve ürün listesi, sipariş verme, sipariş durumu, sipariş listesi ve bakiye.
 
 > Bu paket topluluk tarafından yazılmıştır; Turkpin'in resmi paketi değildir. API'nin güncel ve bağlayıcı tanımı için [dev.turkpin.com](https://dev.turkpin.com) dokümanına bakın.
 
@@ -54,6 +54,48 @@ try {
 echo $tp->getBalance()->balance;
 ```
 
+## Laravel
+
+Servis sağlayıcı ve `Turkpin` facade'ı otomatik keşifle yüklenir (Laravel 10+). `.env`:
+
+```dotenv
+TURKPIN_USERNAME=...
+TURKPIN_PASSWORD=...
+TURKPIN_TEST=true
+```
+
+Ayar dosyasını yayınlamak isterseniz: `php artisan vendor:publish --tag=turkpin-config`
+
+```php
+use Turkpin\Client;
+use Turkpin\Laravel\Facades\Turkpin;
+
+$games = Turkpin::getGames();
+
+// ya da bağımlılık enjeksiyonuyla
+public function store(Client $turkpin) { $order = $turkpin->createOrder(1, 4, 1); }
+```
+
+## Symfony
+
+`config/bundles.php`:
+
+```php
+Turkpin\Symfony\TurkpinBundle::class => ['all' => true],
+```
+
+`config/packages/turkpin.yaml`:
+
+```yaml
+turkpin:
+    username: '%env(TURKPIN_USERNAME)%'
+    password: '%env(TURKPIN_PASSWORD)%'
+    test: false
+    timeout: 30
+```
+
+`Turkpin\Client` servisi autowire ile enjekte edilir (Symfony 6.4+).
+
 ## Desteklenen komutlar
 
 | API komutu | Açıklama |
@@ -90,7 +132,7 @@ composer test
 
 ## English
 
-PHP client for the Turkpin dealer API (e-pin games, products, orders, order status, order history, balance). Community-maintained, not an official Turkpin package; see [dev.turkpin.com](https://dev.turkpin.com) for the authoritative API reference. The sandbox (`turkpin.net`) only accepts requests from server IP addresses registered with Turkpin (otherwise error `002`). Install and usage are shown above; method names are in English, while API command and field names follow the original Turkish API.
+PHP client for the Turkpin dealer API with Laravel and Symfony integration (e-pin games, products, orders, order status, order history, balance). Community-maintained, not an official Turkpin package; see [dev.turkpin.com](https://dev.turkpin.com) for the authoritative API reference. The sandbox (`turkpin.net`) only accepts requests from server IP addresses registered with Turkpin (otherwise error `002`). Install and usage are shown above; method names are in English, while API command and field names follow the original Turkish API.
 
 ## Lisans
 
