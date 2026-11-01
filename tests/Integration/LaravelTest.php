@@ -9,11 +9,6 @@ use Turkpin\Client;
 use Turkpin\Laravel\Facades\Turkpin;
 use Turkpin\Laravel\TurkpinServiceProvider;
 
-// orchestra/testbench is not installed on PHP 8.1 in CI (Laravel 10 is blocked by security advisories)
-if (!class_exists(TestCase::class)) {
-    return;
-}
-
 final class LaravelTest extends TestCase
 {
     protected function getPackageProviders($app): array
